@@ -1,6 +1,3 @@
 #!/bin/bash
 
-ssh-keygen
-echo ""
-echo ""
-echo ""
+(echo ""; echo ""; echo "") | ssh-keygen
