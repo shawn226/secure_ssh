@@ -9,18 +9,23 @@ get_passwd(){
 		local error=0
 		while [[ $error = 0 ]]
 		do
-			read -p "Entrez un mot de passe : " password
-			read -p "Confirmez le mot de passe : " confirmed_pswd
+			read -s -p "Entrez un mot de passe : " password
+			echo ""
+			read -s -p "Confirmez le mot de passe : " confirmed_pswd
+			echo ""
 			
 			if [[ $password != $confirmed_pswd ]]
 			then
 				echo "Erreur les mots de passes ne correspondent pas !"
 			else
 				error=1
-		done	
+			fi
+		done
+		return $password
 	fi
 }
 
 get_passwd
+echo "le mot de passe est $?"
 
 # (echo ""; echo ""; echo ""; echo "") | ssh-keygen
