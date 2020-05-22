@@ -1,3 +1,3 @@
 #!/bin/bash
 
-(echo ""; sleep 1 echo ""; echo "") | ssh-keygen
+(echo ""; sleep 1; echo ""; echo "") | ssh-keygen
