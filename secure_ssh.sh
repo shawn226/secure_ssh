@@ -21,11 +21,13 @@ get_passwd(){
 				error=1
 			fi
 		done
-		return $password
+		echo $password
 	fi
 }
 
-get_passwd
-echo "le mot de passe est $?"
+hashed_mdp=$(get_passwd)
+
+
+echo "le mot de passe est $hashed_mdp"
 
 # (echo ""; echo ""; echo ""; echo "") | ssh-keygen
