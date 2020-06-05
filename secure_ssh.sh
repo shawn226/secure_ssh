@@ -23,7 +23,7 @@ iptables -A SSHTRIES -j LOG --log-prefix "Possible SSH attack! " --log-level 7
 iptables -A SSHTRIES -j DROP
 
 iptables -A INPUT -i eth0 -p tcp -m state --dport 53120 --state NEW -m recent --set
-iptables -A INPUT -i eth0 -p tcp -m state --dport 53120 --state NEW -m recent --update --seconds 120 --hitcount 4 -j SSHATTACK
+iptables -A INPUT -i eth0 -p tcp -m state --dport 53120 --state NEW -m recent --update --seconds 120 --hitcount 4 -j SSHTRIES
 
 service sshd restart
 
