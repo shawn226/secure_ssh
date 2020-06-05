@@ -27,4 +27,6 @@ iptables -A INPUT -i eth0 -p tcp -m state --dport 53120 --state NEW -m recent --
 
 service sshd restart
 
+echo "End of ssh configuration !"
+
 
