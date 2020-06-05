@@ -41,5 +41,8 @@ apt update && apt install openssh-server -y
 #Disable password authentification
 sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no' /etc/ssh/sshd_config
 
+#Disable root logging
+sed -i 's/#PermitRootLogin yes/PermitRootLogin no' /etc/ssh/sshd_config
+
 
 
