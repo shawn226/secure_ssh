@@ -42,10 +42,10 @@ apt update && apt install openssh-server -y
 sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 
 #Disable root logging
-sed -i 's/#PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
 
 #Changing listen port
-sed -i 's/Port 22/Port 53120/' /etc/ssh/sshd_config
+sed -i 's/#Port 22/Port 53120/' /etc/ssh/sshd_config
 
 #Set max authentification tries
 echo "MaxAuthTries 3" >> /etc/ssh/sshd_config
