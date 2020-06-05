@@ -25,9 +25,21 @@ get_passwd(){
 	fi
 }
 
-hashed_mdp=$(get_passwd)
+# hashed_mdp=$(get_passwd)
 
 
 echo "le mot de passe est $hashed_mdp"
 
 # (echo ""; echo ""; echo ""; echo "") | ssh-keygen
+
+#Updating and installing ssh server
+apt update && apt install openssh-server -y
+
+
+###Config sshd_config###
+
+#Disable password authentification
+sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no' /etc/ssh/sshd_config
+
+
+
