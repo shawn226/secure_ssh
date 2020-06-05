@@ -28,7 +28,7 @@ get_passwd(){
 # hashed_mdp=$(get_passwd)
 
 
-echo "le mot de passe est $hashed_mdp"
+# echo "le mot de passe est $hashed_mdp"
 
 # (echo ""; echo ""; echo ""; echo "") | ssh-keygen
 
