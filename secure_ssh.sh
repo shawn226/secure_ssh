@@ -1,37 +1,5 @@
 #!/bin/bash
 
-
-get_passwd(){
-	read -p "Voulez-vous un mot de passe ? (y/n) : " answer_pass
-	
-	if [[ $answer_pass = "y" ]]
-	then
-		local error=0
-		while [[ $error = 0 ]]
-		do
-			read -s -p "Entrez un mot de passe : " password
-			echo ""
-			read -s -p "Confirmez le mot de passe : " confirmed_pswd
-			echo ""
-			
-			if [[ $password != $confirmed_pswd ]]
-			then
-				echo "Erreur les mots de passes ne correspondent pas !"
-			else
-				error=1
-			fi
-		done
-		echo $password
-	fi
-}
-
-# hashed_mdp=$(get_passwd)
-
-
-# echo "le mot de passe est $hashed_mdp"
-
-# (echo ""; echo ""; echo ""; echo "") | ssh-keygen
-
 #Updating and installing ssh server
 apt update && apt install openssh-server -y
 
@@ -50,6 +18,12 @@ sed -i 's/#Port 22/Port 53120/' /etc/ssh/sshd_config
 #Set max authentification tries
 echo "MaxAuthTries 3" >> /etc/ssh/sshd_config
 
+iptables -N SSHTRIES
+iptables -A SSHTRIES -j LOG --log-prefix "Possible SSH attack! " --log-level 7
+iptables -A SSHTRIES -j DROP
+
+iptables -A INPUT -i eth0 -p tcp -m state --dport 53120 --state NEW -m recent --set
+iptables -A INPUT -i eth0 -p tcp -m state --dport 53120 --state NEW -m recent --update --seconds 120 --hitcount 4 -j SSHATTACK
 
 service sshd restart
 
