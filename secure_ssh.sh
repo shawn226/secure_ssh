@@ -18,12 +18,12 @@ sed -i 's/#Port 22/Port 53120/' /etc/ssh/sshd_config
 #Set max authentification tries
 echo "MaxAuthTries 3" >> /etc/ssh/sshd_config
 
-iptables -N SSHTRIES
-iptables -A SSHTRIES -j LOG --log-prefix "Possible SSH attack! " --log-level 7
-iptables -A SSHTRIES -j DROP
+iptables -N SSHMAXTRIES
+iptables -A SSHMAXTRIES -j LOG --log-prefix "Possible SSH attack! " --log-level 7
+iptables -A SSHMAXTRIES -j DROP
 
 iptables -A INPUT -i eth0 -p tcp -m state --dport 53120 --state NEW -m recent --set
-iptables -A INPUT -i eth0 -p tcp -m state --dport 53120 --state NEW -m recent --update --seconds 120 --hitcount 4 -j SSHTRIES
+iptables -A INPUT -i eth0 -p tcp -m state --dport 53120 --state NEW -m recent --update --seconds 120 --hitcount 4 -j SSHMAXTRIES
 
 service sshd restart
 
