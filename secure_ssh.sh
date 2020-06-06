@@ -48,11 +48,11 @@ echo "[SecureApp] Starting Clamav configuration..."
 
 # Install prerequisites and dependencies
 
-apt-get install build-essential # developer tools
+apt-get install build-essential -y # developer tools
 
-apt-get install openssl libssl-dev libcurl4-openssl-dev zlib1g-dev libpng-dev libxml2-dev libjson-c-dev libbz2-dev libpcre3-dev ncurses-dev # library dependencies
+apt-get install openssl libssl-dev libcurl4-openssl-dev zlib1g-dev libpng-dev libxml2-dev libjson-c-dev libbz2-dev libpcre3-dev ncurses-dev -y # library dependencies
 
-apt-get install valgrind check check-devel # unit testing dependencies
+apt-get install valgrind check check-devel -y # unit testing dependencies
 
 
 # Download Clamav 
