@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Updating and installing ssh server
-echo "[SecureApp] Initialization..."
+echo "\e[96m[SecureApp] Initialization..."
 sleep 1
 
 apt update && apt install openssh-server -y
@@ -9,7 +9,7 @@ apt update && apt install openssh-server -y
 
 ###Config sshd_config###
 
-echo "[SecureApp] Starting ssh configuration..."
+echo "\e[96m[SecureApp] Starting ssh configuration..."
 
 #Disable password authentification
 sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
@@ -23,8 +23,11 @@ sed -i 's/#Port 22/Port 53120/' /etc/ssh/sshd_config
 #Enable ssh Pub key authentification
 sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
 
-echo 'AuthorizedKeysFile /home/$(ls /home)/.ssh/authorized_keys' >> /etc/ssh/sshd_config
+echo 'AuthorizedKeysFile /home/backupclt/.ssh/authorized_keys' >> /etc/ssh/sshd_config
 
+#Disable logging with empty password
+
+sed -i 's/#PermitEmptyPassword no/PermitEmptyPassword no/' /etc/ssh/sshd_config
 
 #Set max authentification tries
 echo "MaxAuthTries 3" >> /etc/ssh/sshd_config
@@ -38,12 +41,12 @@ iptables -A INPUT -i eth0 -p tcp -m state --dport 53120 --state NEW -m recent --
 
 service sshd restart
 
-echo "[SecureApp] End of ssh configuration !"
+echo "\e[92m[SecureApp] End of ssh configuration !"
 
 
 ###Config Clamav anti-virus###
 
-echo "[SecureApp] Starting Clamav configuration..."
+echo "\e[96m[SecureApp] Starting Clamav configuration..."
 
 
 # Install prerequisites and dependencies
@@ -67,7 +70,7 @@ cd clamav-0.102.3
 
 
 # Install config files Clamav
-./configure -–sysconfdir=/etc
+./configure -–enable-check
 
 # Compilation
 make -j2
