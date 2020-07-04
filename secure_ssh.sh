@@ -46,7 +46,7 @@ echo -e "\e[92m[SecureApp] End of ssh configuration !"
 echo -e "\e[96m[SecureApp] Starting Clamav Install..."
 
 apt update && apt upgrade
-apt-get install clamav clamav-daemon
+apt-get install clamav clamav-daemon -y
 
 echo -e "\e[92m[SecureApp] The installation is done!"
 
