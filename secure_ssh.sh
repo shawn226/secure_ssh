@@ -54,7 +54,9 @@ echo -e "\e[92m[SecureApp] The installation is done!"
 echo -e "\e[96m[SecureApp] Starting ClamAV configuration..."
 
 systemctl stop clamav-freshclam
+systemctl stop clamav-daemon.service
 
+rm /var/log/clamav/freshclam.log
 #Refreshing the ClamAV database
 freshclam
 
