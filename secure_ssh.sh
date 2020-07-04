@@ -45,7 +45,7 @@ echo -e "\e[92m[SecureApp] End of ssh configuration !"
 ###Config Clamav anti-virus###
 echo -e "\e[96m[SecureApp] Starting Clamav Install..."
 
-apt update && apt upgrade
+apt update && apt upgrade -y
 apt-get install clamav clamav-daemon -y
 
 echo -e "\e[92m[SecureApp] The installation is done!"
@@ -56,7 +56,7 @@ echo -e "\e[96m[SecureApp] Starting ClamAV configuration..."
 systemctl stop clamav-freshclam
 systemctl stop clamav-daemon.service
 
-rm /var/log/clamav/freshclam.log
+service clamav-daemon restart
 #Refreshing the ClamAV database
 freshclam
 
