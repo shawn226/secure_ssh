@@ -43,46 +43,25 @@ echo -e "\e[92m[SecureApp] End of ssh configuration !"
 
 
 ###Config Clamav anti-virus###
-echo -e "\e[96m[SecureApp] Starting Clamav configuration..."
+echo -e "\e[96m[SecureApp] Starting Clamav Install..."
+
+apt update && apt upgrade
+apt-get install clamav clamav-daemon
+
+echo -e "\e[92m[SecureApp] The installation is done!"
 
 
-# Install prerequisites and dependencies
-apt-get install build-essential -y # developer tools
+echo -e "\e[96m[SecureApp] Starting ClamAV configuration..."
+#Refreshing the ClamAV database
+freshclam
 
-apt-get install openssl libssl-dev libcurl4-openssl-dev zlib1g-dev libpng-dev libxml2-dev libjson-c-dev libbz2-dev libpcre3-dev ncurses-dev -y # library dependencies
+# initialize the ClamAV daemon.
+systemctl start clamav-daemon
+systemctl start clamav-freshclam
 
-apt-get install valgrind check check-devel -y # unit testing dependencies
-
-
-# Download Clamav 
-cd
-
-wget https://www.clamav.net/downloads/production/clamav-0.102.3.tar.gz
-
-tar xzf clamav-0.102.3.tar.gz
-
-cd clamav-0.102.3
+echo -e "\e[92m[SecureApp] End of ClamAV configuration !"
 
 
-# Install config files Clamav
-./configure -–enable-check
-
-# Compilation
-make -j2
-
-# Checking first unit test
-make check
-
-# Install 
-make install
-
-
-# Setting up for the first time
-cp /usr/local/etc/freshclam.conf.sample /usr/local/etc/freshclam.conf # copy sample file to create a freshclam config
-
-
-# Create the database directory
-mkdir /usr/local/share/clamav
 
 
 
