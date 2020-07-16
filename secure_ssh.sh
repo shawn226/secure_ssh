@@ -4,7 +4,7 @@
 echo -e "\e[96m[SecureApp] Initialization..."
 sleep 1
 
-apt update && apt install openssh-server -y
+apt update && apt upgrade -y && apt install openssh-server -y
 
 
 ###Config sshd_config###
@@ -30,14 +30,14 @@ sed -i 's/#PermitEmptyPassword no/PermitEmptyPassword no/' /etc/ssh/sshd_config
 #Set max authentification tries
 echo "MaxAuthTries 3" >> /etc/ssh/sshd_config
 
-iptables -N SSHMAXTRIES
-iptables -A SSHMAXTRIES -j LOG --log-prefix "Possible SSH attack! " --log-level 7
-iptables -A SSHMAXTRIES -j DROP
-
-iptables -A INPUT -i eth0 -p tcp -m state --dport 53120 --state NEW -m recent --set
-iptables -A INPUT -i eth0 -p tcp -m state --dport 53120 --state NEW -m recent --update --seconds 120 --hitcount 4 -j SSHMAXTRIES
-
 service sshd restart
+
+
+#Fail2ban configuration
+apt install fail2ban -y
+
+systemctl enable fail2ban
+
 
 echo -e "\e[92m[SecureApp] End of ssh configuration !"
 
@@ -67,7 +67,16 @@ systemctl start clamav-freshclam
 echo -e "\e[92m[SecureApp] End of ClamAV configuration !"
 
 
+###Config apparmor
+echo -e "\e[96m[SecureApp] Starting Clamav Install..."
+apt install apparmor-utils apparmor-profiles -y
 
+echo -e "\e[92m[SecureApp] The installation is done!"
+
+#start profiles in complain mode
+aa-complain /etc/apparmor.d/*
+
+echo -e "\e[0"
 
 
 
